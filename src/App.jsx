@@ -90,7 +90,7 @@ const App = () => {
           <div className="lg:flex w-full justify-between">
             <Sidebar onToggle={toggleMenu} />
             <div
-              className={`transition-all duration-300 ease-linear absolute top-16 left-28 right-0 bg-black bg-opacity-90 overflow-hidden rounded-md ${
+              className={`transition-all duration-300 ease-linear absolute top-16 left-36 right-0 bg-black bg-opacity-90 overflow-hidden rounded-md ${
                 isMenuOpen ? "max-h-screen" : "max-h-0"
               } lg:static lg:flex lg:flex-col lg:overflow-visible lg:bg-transparent lg:w-1/2 list-none space-y-1 z-20`} // Ensure song list shows on large screens
             >
@@ -122,7 +122,7 @@ const App = () => {
         </div>
 
         {/* Music player section */}
-        <div className="flex items-center justify-center lg:w-1/2 w-full mt-10">
+        <div className="flex items-center justify-center lg:w-1/2 w-full mt-4">
           {currentSong ? (
             <MusicPlayer
               song={currentSong}
@@ -133,9 +133,9 @@ const App = () => {
             <div className="text-center text-white">
               
 
-              <img src={NoSongImage} className="h-96"/>
-              <p className="my-4">No music is playing</p>
-              <p className="text-lg font-semibold lg:text-xl">Select a track to play</p>
+              <img src={NoSongImage} className="h-auto"/>
+              <p className="my-4">No music is playing...</p>
+              <p className="text-lg font-semibold lg:text-xl">Select a track to play!</p>
             </div>
           )}
         </div>
