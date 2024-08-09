@@ -97,7 +97,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
         <IconButton>
           <MoreHorizIcon className="text-white bg-white rounded-full bg-opacity-10 p-2" fontSize='large' />
         </IconButton>
-        <div className="flex space-x-4">
+        <div className="flex">
           <IconButton onClick={onPrevious}>
             <FastRewindRoundedIcon className="text-white" />
           </IconButton>
@@ -112,7 +112,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
             <FastForwardRoundedIcon className="text-white" />
           </IconButton>
         </div>
-        <IconButton className="bg-white bg-opacity-20 rounded-full">
+        <IconButton>
           <VolumeUpIcon className="text-white bg-white rounded-full bg-opacity-10 p-2" fontSize='large'/>
         </IconButton>
       </div>
