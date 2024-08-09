@@ -133,7 +133,7 @@ const App = () => {
             <div className="text-center text-white">
               
 
-              <img src={NoSongImage} className="h-auto"/>
+              <img src={NoSongImage} className="h-auto lg:h-96"/>
               <p className="my-4">No music is playing...</p>
               <p className="text-lg font-semibold lg:text-xl">Select a track to play!</p>
             </div>
