@@ -1,7 +1,7 @@
 import { Slider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const StyledSlider = styled(Slider)(({ theme }) => ({
+const StyledSlider = styled(Slider)(() => ({
   color: '#ffffff',
   height: 4,
   '& .MuiSlider-thumb': {
