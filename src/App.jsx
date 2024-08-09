@@ -122,7 +122,7 @@ const App = () => {
         </div>
 
         {/* Music player section */}
-        <div className="flex justify-center lg:w-1/2 w-full mt-4">
+        <div className="flex justify-center lg:w-1/2 w-full mt-4 px-2 lg:p-0">
           {currentSong ? (
             <MusicPlayer
               song={currentSong}
