@@ -1,70 +1,84 @@
-import { useState, useEffect } from 'react';
-import { IconButton } from '@mui/material';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import CustomSlider from './CustomSlider';
-import PlayCircleRoundedIcon from '@mui/icons-material/PlayCircleRounded';
-import PauseCircleRoundedIcon from '@mui/icons-material/PauseCircleRounded';
-import FastForwardRoundedIcon from '@mui/icons-material/FastForwardRounded';
-import FastRewindRoundedIcon from '@mui/icons-material/FastRewindRounded';
+import { useState, useEffect, useRef } from "react";
+import { IconButton } from "@mui/material";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import CustomSlider from "./CustomSlider";
+import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
+import PauseCircleRoundedIcon from "@mui/icons-material/PauseCircleRounded";
+import FastForwardRoundedIcon from "@mui/icons-material/FastForwardRounded";
+import FastRewindRoundedIcon from "@mui/icons-material/FastRewindRounded";
 
 const MusicPlayer = ({ song, onNext, onPrevious }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audio, setAudio] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
+
   useEffect(() => {
-    if (audio) {
-      audio.pause();
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
 
     if (song) {
       const newAudio = new Audio(song.url);
-      setAudio(newAudio);
-      newAudio.addEventListener('loadedmetadata', () => {
+      audioRef.current = newAudio;
+
+      const handleLoadedMetadata = () => {
         setDuration(newAudio.duration);
         if (isPlaying) {
           newAudio.play();
         }
-      });
-      newAudio.addEventListener('timeupdate', () => {
+      };
+
+      const handleTimeUpdate = () => {
         setCurrentTime(newAudio.currentTime);
-      });
-      newAudio.addEventListener('ended', () => {
+      };
+
+      const handleEnded = () => {
         setIsPlaying(false);
         onNext();
-      });
+      };
 
-      if (isPlaying) {
-        newAudio.play();
-      }
+      newAudio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      newAudio.addEventListener("timeupdate", handleTimeUpdate);
+      newAudio.addEventListener("ended", handleEnded);
 
       return () => {
         newAudio.pause();
+        newAudio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        newAudio.removeEventListener("timeupdate", handleTimeUpdate);
+        newAudio.removeEventListener("ended", handleEnded);
       };
     }
-  }, [song, isPlaying]);
+  }, [song]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }
+  }, [isPlaying]);
 
   const playPauseHandler = () => {
-    if (audio) {
+    if (audioRef.current) {
       if (isPlaying) {
-        audio.pause();
+        audioRef.current.pause();
       } else {
-        audio.play();
+        audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleTimeChange = (event, newValue) => {
-    if (audio) {
-      audio.currentTime = newValue;
+    if (audioRef.current) {
+      audioRef.current.currentTime = newValue;
       setCurrentTime(newValue);
     }
   };
 
   useEffect(() => {
     if (song) {
+      setCurrentTime(0);
       setIsPlaying(true);
     }
   }, [song]);
@@ -94,7 +108,10 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
       </div>
       <div className="flex flex-row justify-between items-center m-0">
         <IconButton>
-          <MoreHorizIcon className="text-white bg-white rounded-full bg-opacity-10 p-2" fontSize='large' />
+          <MoreHorizIcon
+            className="text-white bg-white rounded-full bg-opacity-10 p-2"
+            fontSize="large"
+          />
         </IconButton>
         <div className="flex">
           <IconButton onClick={onPrevious}>
@@ -102,9 +119,9 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
           </IconButton>
           <IconButton onClick={playPauseHandler}>
             {isPlaying ? (
-              <PauseCircleRoundedIcon className="text-white" fontSize='large'/>
+              <PauseCircleRoundedIcon className="text-white" fontSize="large" />
             ) : (
-              <PlayCircleRoundedIcon className="text-white" fontSize='large'/>
+              <PlayCircleRoundedIcon className="text-white" fontSize="large" />
             )}
           </IconButton>
           <IconButton onClick={onNext}>
@@ -112,7 +129,10 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
           </IconButton>
         </div>
         <IconButton>
-          <VolumeUpIcon className="text-white bg-white rounded-full bg-opacity-10 p-2" fontSize='large'/>
+          <VolumeUpIcon
+            className="text-white bg-white rounded-full bg-opacity-10 p-2"
+            fontSize="large"
+          />
         </IconButton>
       </div>
     </div>
