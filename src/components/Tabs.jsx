@@ -7,7 +7,7 @@ const Tabs = () => {
       <div className="flex mb-2 p-2 gap-4">
         <Link
           to="/"
-          className={`mr-4 text-white text-xl ${
+          className={`mr-4 text-white text-lg lg:text-xl ${
             location.pathname === "/" ? "font-bold" : ""
           }`}
         >
@@ -15,7 +15,7 @@ const Tabs = () => {
         </Link>
         <Link
           to="/top-tracks"
-          className={`text-white text-xl ${
+          className={`text-white text-lg lg:text-xl ${
             location.pathname === "/top-tracks" ? "font-bold" : ""
           }`}
         >
