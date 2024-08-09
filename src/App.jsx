@@ -81,7 +81,7 @@ const App = () => {
   return (
     <Router>
       <div
-        className={`flex h-auto p-2 lg:p-6 w-full flex-col lg:flex-row`}
+        className={`flex lg:h-auto h-screen p-2 lg:p-6 w-full flex-col lg:flex-row`}
         style={{
           background: `linear-gradient(to top left, #000000, ${bgColor})`,
         }}
@@ -90,7 +90,7 @@ const App = () => {
           <div className="lg:flex w-full justify-between">
             <Sidebar onToggle={toggleMenu} />
             <div
-              className={`transition-all duration-300 ease-linear absolute top-16 left-36 right-0 bg-black bg-opacity-90 overflow-hidden rounded-md ${
+              className={`transition-all duration-300 ease-linear absolute top-16 left-2 right-2 bg-black bg-opacity-90 overflow-hidden rounded-md ${
                 isMenuOpen ? "max-h-screen" : "max-h-0"
               } lg:static lg:flex lg:flex-col lg:overflow-visible lg:bg-transparent lg:w-1/2 list-none space-y-1 z-20`} // Ensure song list shows on large screens
             >
