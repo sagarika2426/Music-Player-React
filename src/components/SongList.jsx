@@ -1,12 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import SongListShimmer from '../components/SongListShimmer';
 
 const SongList = ({ songs, onSelectSong }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
-    setIsVisible(true);
-    return () => setIsVisible(false);
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      setIsVisible(true);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      setIsVisible(false);
+    };
   }, [songs]);
+
+  if (isLoading) {
+    return <SongListShimmer />;
+  }
 
   if (songs.length === 0) {
     return <div className="text-white mt-4">No songs or artists found</div>;
@@ -15,7 +29,7 @@ const SongList = ({ songs, onSelectSong }) => {
   return (
     <div
       className={`transition-opacity duration-500 ease-in-out ${
-        isVisible ? "opacity-100" : "opacity-0"
+        isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <ul className="list-none p-0 m-0 mt-2 space-y-2">

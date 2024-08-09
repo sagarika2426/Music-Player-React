@@ -81,7 +81,7 @@ const App = () => {
   return (
     <Router>
       <div
-        className={`flex h-screen p-2 lg:p-6 w-full flex-col lg:flex-row`}
+        className={`flex h-auto p-2 lg:p-6 w-full flex-col lg:flex-row`}
         style={{
           background: `linear-gradient(to top left, #000000, ${bgColor})`,
         }}
@@ -122,7 +122,7 @@ const App = () => {
         </div>
 
         {/* Music player section */}
-        <div className="flex items-center justify-center lg:w-1/2 w-full mt-4">
+        <div className="flex justify-center lg:w-1/2 w-full mt-4">
           {currentSong ? (
             <MusicPlayer
               song={currentSong}

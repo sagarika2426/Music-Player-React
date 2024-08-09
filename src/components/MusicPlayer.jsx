@@ -13,8 +13,6 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
   const [audio, setAudio] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(30);
-
   useEffect(() => {
     if (audio) {
       audio.pause();
@@ -36,21 +34,16 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
         setIsPlaying(false);
         onNext();
       });
-      newAudio.volume = volume / 100;
+
+      if (isPlaying) {
+        newAudio.play();
+      }
+
       return () => {
         newAudio.pause();
-        newAudio.removeEventListener('loadedmetadata', () => {});
-        newAudio.removeEventListener('timeupdate', () => {});
-        newAudio.removeEventListener('ended', () => {});
       };
     }
-  }, [song, isPlaying, volume]);
-
-  useEffect(() => {
-    if (audio) {
-      audio.volume = volume / 100;
-    }
-  }, [volume, audio]);
+  }, [song, isPlaying]);
 
   const playPauseHandler = () => {
     if (audio) {
@@ -69,6 +62,12 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
       setCurrentTime(newValue);
     }
   };
+
+  useEffect(() => {
+    if (song) {
+      setIsPlaying(true);
+    }
+  }, [song]);
 
   if (!song) return null;
 
