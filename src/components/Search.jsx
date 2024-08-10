@@ -4,8 +4,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { CiSearch } from "react-icons/ci";
 
 const Search = ({ onSearch }) => {
+  // State to manage the search query
   const [query, setQuery] = useState("");
 
+  // Handle input change, update state and call onSearch prop
   const handleChange = (event) => {
     const newQuery = event.target.value;
     setQuery(newQuery);

@@ -9,31 +9,36 @@ import FastForwardRoundedIcon from "@mui/icons-material/FastForwardRounded";
 import FastRewindRoundedIcon from "@mui/icons-material/FastRewindRounded";
 
 const MusicPlayer = ({ song, onNext, onPrevious }) => {
+  // State to manage play/pause status, current time, and duration
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const audioRef = useRef(null);
+  const audioRef = useRef(null); // Reference to the audio element
 
+  // Effect to handle song changes
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.pause();
+      audioRef.current.pause(); // Pause the previous song
     }
 
     if (song) {
       const newAudio = new Audio(song.url);
       audioRef.current = newAudio;
 
+      // Update duration when metadata is loaded
       const handleLoadedMetadata = () => {
         setDuration(newAudio.duration);
         if (isPlaying) {
-          newAudio.play();
+          newAudio.play(); // Auto-play if already playing
         }
       };
 
+      // Update current time as the song plays
       const handleTimeUpdate = () => {
         setCurrentTime(newAudio.currentTime);
       };
 
+      // Handle end of song and move to the next song
       const handleEnded = () => {
         setIsPlaying(false);
         onNext();
@@ -52,12 +57,14 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
     }
   }, [song]);
 
+  // Effect to play or pause the song based on isPlaying state
   useEffect(() => {
     if (audioRef.current) {
       isPlaying ? audioRef.current.play() : audioRef.current.pause();
     }
   }, [isPlaying]);
 
+  // Toggle play/pause status
   const playPauseHandler = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -69,6 +76,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
     }
   };
 
+  // Update current time when slider value changes
   const handleTimeChange = (event, newValue) => {
     if (audioRef.current) {
       audioRef.current.currentTime = newValue;
@@ -76,6 +84,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
     }
   };
 
+  // Effect to reset player when a new song is selected
   useEffect(() => {
     if (song) {
       setCurrentTime(0);
@@ -83,14 +92,16 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
     }
   }, [song]);
 
-  if (!song) return null;
+  if (!song) return null; // Render nothing if no song is selected
 
   return (
     <div className="rounded-lg shadow-lg text-white w-full lg:w-auto z-10">
+      {/* Song details */}
       <div className="text-start gap-1 flex flex-col mb-8">
         <h2 className="text-xl font-bold md:text-2xl">{song.name}</h2>
         <p className="text-gray-400 text-sm">{song.artist}</p>
       </div>
+      {/* Song cover image */}
       <div className="flex flex-col items-center mb-3">
         <img
           src={`https://cms.samespace.com/assets/${song.cover}`}
@@ -98,6 +109,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
           className="w-full h-96 object-cover rounded-lg shadow-md lg:w-96 lg:h-96"
         />
       </div>
+      {/* Playback progress slider */}
       <div>
         <CustomSlider
           value={currentTime}
@@ -106,6 +118,7 @@ const MusicPlayer = ({ song, onNext, onPrevious }) => {
           aria-label="Song Progress"
         />
       </div>
+      {/* Control buttons */}
       <div className="flex flex-row justify-between items-center m-0">
         <IconButton>
           <MoreHorizIcon
