@@ -87,7 +87,7 @@ const App = () => {
   return (
     <Router>
       <div
-        className={`flex lg:h-[calc(100dvh)]] h-screen lg:p-6 w-full flex-col lg:flex-row`}
+        className={`flex lg:h-[calc(100dvh)]] h-screen lg:p-6 w-full flex-col lg:flex-row p-4`}
         style={{
           background: `linear-gradient(to top left, #000000, ${bgColor})`, // Set background gradient
         }}
