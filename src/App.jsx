@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SongList from "./components/SongList";
 import Search from "./components/Search";
-import { fetchSongs } from "./utils/api";
 import MusicPlayer from "./components/MusicPlayer";
 import Sidebar from "./components/SideBar";
 import Tabs from "./components/Tabs";
-import NoSongImage from "./assets/NoSongImage.png"
+import NoSongImage from "./assets/NoSongImage.png";
+import { fetchSongsWithDuration } from "./utils/getSongDuration";
 
 const App = () => {
   const [currentSong, setCurrentSong] = useState(null);
@@ -20,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     const loadSongs = async () => {
-      const data = await fetchSongs();
+      const data = await fetchSongsWithDuration();
       setSongs(data);
       setFilteredSongs(data);
 
@@ -81,7 +81,7 @@ const App = () => {
   return (
     <Router>
       <div
-        className={`flex lg:h-auto h-screen p-2 lg:p-6 w-full flex-col lg:flex-row`}
+        className={`flex lg:h-[calc(100dvh)]] h-screen lg:p-6 w-full flex-col lg:flex-row`}
         style={{
           background: `linear-gradient(to top left, #000000, ${bgColor})`,
         }}
@@ -90,7 +90,7 @@ const App = () => {
           <div className="lg:flex w-full justify-between">
             <Sidebar onToggle={toggleMenu} />
             <div
-              className={`transition-all duration-300 ease-linear absolute top-16 left-2 right-2 bg-black bg-opacity-90 overflow-hidden rounded-md ${
+              className={`transition-all duration-300 ease-linear absolute top-16 left-100 right-0 bg-black bg-opacity-90 overflow-hidden rounded-md ${
                 isMenuOpen ? "max-h-screen" : "max-h-0"
               } lg:static lg:flex lg:flex-col lg:overflow-visible lg:bg-transparent lg:w-1/2 list-none space-y-1 z-20`} // Ensure song list shows on large screens
             >
@@ -104,6 +104,7 @@ const App = () => {
                     <SongList
                       songs={filteredSongs}
                       onSelectSong={setCurrentSong}
+                      currentSong={currentSong}
                     />
                   }
                 />
@@ -122,7 +123,7 @@ const App = () => {
         </div>
 
         {/* Music player section */}
-        <div className="flex justify-center lg:w-1/2 w-full mt-4 px-2 lg:p-0">
+        <div className="flex justify-center lg:w-1/2 w-full mt-4">
           {currentSong ? (
             <MusicPlayer
               song={currentSong}
@@ -131,11 +132,11 @@ const App = () => {
             />
           ) : (
             <div className="text-center text-white">
-              
-
-              <img src={NoSongImage} className="h-auto lg:h-96"/>
+              <img src={NoSongImage} className="h-auto lg:h-96" />
               <p className="my-4">No music is playing...</p>
-              <p className="text-lg font-semibold lg:text-xl">Select a track to play!</p>
+              <p className="text-lg font-semibold lg:text-xl">
+                Select a track to play!
+              </p>
             </div>
           )}
         </div>

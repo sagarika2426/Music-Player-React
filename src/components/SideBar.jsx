@@ -5,7 +5,7 @@ import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 const Sidebar = ({ onToggle }) => {
   return (
     <div className="lg:w-1/3 flex flex-col justify-between w-full">
-      <div className="flex justify-between w-full lg:flex-col lg:h-screen">
+      <div className="flex justify-between w-full lg:flex-col lg:h-[calc(100dvh-48px)] ">
         <div>
           <img src={Image} alt="Top Image" className="w-auto h-9 my-2 lg:m-0" />
         </div>
